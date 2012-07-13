@@ -181,27 +181,24 @@ namespace XPG
 
 				// Drawing is throttled to the screen update rate, so there
 				// is no need to do timing here.
-				OnDraw();
+				Draw();
 			}
-		}
-	}
-
-	void Window::OnDraw()
-	{
-		if (_display != NULL)
-		{
-		    glClearColor(((float)_x)/_width, _angle,
-		            ((float)_y)/_height, 1);
-
-		    //glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
-		    glClear(GL_COLOR_BUFFER_BIT);
-		    SwapBuffers();
 		}
 	}
 
 	void Window::SwapBuffers()
 	{
 		eglSwapBuffers(_display, _surface);
+	}
+
+	void Window::Draw()
+	{
+		if (_display != NULL)
+		{
+			Ammo ammo;
+			ammo.window = this;
+			_onDraw.Fire(ammo);
+		}
 	}
 
 	void Window::GetCommand(struct android_app* app, int32_t command)
@@ -232,7 +229,7 @@ namespace XPG
 	            if (_app->window != NULL)
 	            {
 	                Open();
-	                OnDraw();
+	                Draw();
 	            }
 	            break;
 
@@ -262,7 +259,6 @@ namespace XPG
 	            }
 	            // Also stop animating.
 	            _animating = 0;
-	            OnDraw();
 	            break;
 	    }
 	}

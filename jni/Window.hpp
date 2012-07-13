@@ -1,6 +1,8 @@
 #ifndef XpgWindowHpp
 #define XpgWindowHpp
 
+#include "Event.hpp"
+
 #include <jni.h>
 #include <errno.h>
 
@@ -29,6 +31,8 @@ namespace XPG
 
 			void SwapBuffers();
 
+			inline Event& OnDraw() { return _onDraw; }
+
 		private:
 			struct android_app* _app;
 			ASensorManager* _sensorManager;
@@ -45,9 +49,11 @@ namespace XPG
 			int32_t _x;
 			int32_t _y;
 
+			Event _onDraw;
+
+			void Draw();
 			void OnCommand(struct android_app* app,int32_t command);
 			int32_t OnInput(struct android_app* app, AInputEvent* event);
-			void OnDraw();
 
 			static void GetCommand(struct android_app* app,int32_t command);
 			static int32_t GetInput(struct android_app* app, AInputEvent* event);
