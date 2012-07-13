@@ -78,7 +78,14 @@ namespace XPG
 		ANativeWindow_setBuffersGeometry(_app->window, 0, 0, format);
 
 		surface = eglCreateWindowSurface(display, config, _app->window, NULL);
-		context = eglCreateContext(display, config, NULL, NULL);
+
+		const EGLint contextAttributes[] =
+			{
+				EGL_CONTEXT_CLIENT_VERSION, 2,
+				EGL_NONE
+			};
+
+		context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttributes);
 
 		if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
 			LOGW("Unable to eglMakeCurrent");
@@ -96,10 +103,9 @@ namespace XPG
 		_angle = 0;
 
 		// Initialize GL state.
-		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
-		glEnable(GL_CULL_FACE);
-		glShadeModel(GL_SMOOTH);
 		glDisable(GL_DEPTH_TEST);
+
+		LOGI("OpenGL Version: %s", glGetString(GL_VERSION));
 
 		Ammo ammo;
 		ammo.window = this;
@@ -162,10 +168,10 @@ namespace XPG
 						while (ASensorEventQueue_getEvents(_sensorEventQueue,
 							&event, 1) > 0)
 						{
-							LOGI("accelerometer: x=%f y=%f z=%f",
-									event.acceleration.x,
-									event.acceleration.y,
-									event.acceleration.z);
+							//LOGI("accelerometer: x=%f y=%f z=%f",
+							//		event.acceleration.x,
+							//		event.acceleration.y,
+							//		event.acceleration.z);
 						}
 					}
 				}

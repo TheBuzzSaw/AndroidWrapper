@@ -20,9 +20,6 @@ void OnTouch(const XPG::Ammo& ammo)
 {
 	glClearColor(((float)ammo.x)/ ammo.window->Width(), (float)ammo.window->Angle(),
 			((float)ammo.y)/ammo.window->Height(), 1);
-
-	glClear(GL_COLOR_BUFFER_BIT);
-	ammo.window->SwapBuffers();
 }
 
 void OnAccel(const XPG::Ammo& ammo)

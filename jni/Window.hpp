@@ -7,7 +7,8 @@
 #include <errno.h>
 
 #include <EGL/egl.h>
-#include <GLES/gl.h>
+#include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
 
 #include <android/sensor.h>
 #include <android/log.h>
