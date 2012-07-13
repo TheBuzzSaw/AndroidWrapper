@@ -8,6 +8,8 @@ namespace XPG
 	struct Ammo
 	{
 		Window* window;
+		int x;
+		int y;
 		void* userData;
 	};
 

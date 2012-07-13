@@ -32,6 +32,16 @@ namespace XPG
 			void SwapBuffers();
 
 			inline Event& OnDraw() { return _onDraw; }
+			inline Event& OnLoad() { return _onLoad; }
+			inline Event& OnUnload() { return _onUnload; }
+			inline Event& OnTouch() { return _onTouch; }
+			inline Event& OnAccel() { return _onAccel; }
+			inline Event& OnLowMemory() { return _onLowMemory; }
+			inline Event& OnResize() { return _onResize; }
+
+			inline int32_t Width() const { return _width; }
+			inline int32_t Height() const { return _height; }
+			inline float Angle() const { return _angle; }
 
 		private:
 			struct android_app* _app;
@@ -50,6 +60,12 @@ namespace XPG
 			int32_t _y;
 
 			Event _onDraw;
+			Event _onLoad;
+			Event _onUnload;
+			Event _onTouch;
+			Event _onAccel;
+			Event _onLowMemory;
+			Event _onResize;
 
 			void Draw();
 			void OnCommand(struct android_app* app,int32_t command);

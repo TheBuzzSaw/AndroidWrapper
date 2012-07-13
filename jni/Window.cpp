@@ -100,10 +100,18 @@ namespace XPG
 		glEnable(GL_CULL_FACE);
 		glShadeModel(GL_SMOOTH);
 		glDisable(GL_DEPTH_TEST);
+
+		Ammo ammo;
+		ammo.window = this;
+		_onLoad.Fire(ammo);
 	}
 
 	void Window::Close()
 	{
+		Ammo ammo;
+		ammo.window = this;
+		_onUnload.Fire(ammo);
+
 		if (_display != EGL_NO_DISPLAY)
 		{
 			eglMakeCurrent(_display, EGL_NO_SURFACE, EGL_NO_SURFACE,
@@ -268,8 +276,13 @@ namespace XPG
 		if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION)
 		{
 			_animating = 1;
-		    _x = AMotionEvent_getX(event, 0);
-			_y = AMotionEvent_getY(event, 0);
+
+			Ammo ammo;
+			ammo.window = this;
+			ammo.x = AMotionEvent_getX(event, 0);
+			ammo.y = AMotionEvent_getY(event, 0);
+			_onTouch.Fire(ammo);
+
 			return 1;
 		}
 
