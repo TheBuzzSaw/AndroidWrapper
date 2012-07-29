@@ -1,14 +1,19 @@
 #include "Window.hpp"
 #include "Program.hpp"
+#include "Matrix4x4.hpp"
+
+XPG::Matrix4x4<GLfloat> projection;
+GLint matrixUniform;
 
 static const char* const VertexShader =
+	"uniform mat4 uMatrix;\n"
     "attribute vec4 vPosition;\n"
 	"attribute vec4 aColor;\n"
 	"varying vec4 vColor;\n"
     "void main()\n"
 	"{\n"
 	"  vColor = aColor;\n"
-    "  gl_Position = vPosition;\n"
+    "  gl_Position = uMatrix * vec4(vPosition.xy, 0.0, 1.0);\n"
     "}\n";
 
 static const char* const FragmentShader =
@@ -29,6 +34,7 @@ static XPG::Program<2>* program = 0;
 
 void OnLoad(const XPG::Ammo& ammo)
 {
+	LOGI("OnLoad");
 	glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 
 	XPG::Shader vs(GL_VERTEX_SHADER);
@@ -43,11 +49,21 @@ void OnLoad(const XPG::Ammo& ammo)
 	program->BindAttribLocation(0, "vPosition");
 	program->BindAttribLocation(1, "aColor");
 	program->Link();
+
+	matrixUniform = program->GetUniformLocation("uMatrix");
+
+	float ratio = float(ammo.x) / float(ammo.y);
+	projection.loadIdentity();
+	projection.orthographic(1.0f, ratio);
+
+	glUniformMatrix4fv(matrixUniform, 1, GL_FALSE, projection);
 }
 
 void OnUnload(const XPG::Ammo& ammo)
 {
+	LOGI("OnUnload");
 	delete program;
+	program = 0;
 }
 
 void OnDraw(const XPG::Ammo& ammo)

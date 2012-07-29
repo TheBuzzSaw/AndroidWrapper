@@ -16,6 +16,7 @@ namespace XPG
             void BindAttribLocation(GLuint index, const GLchar* name);
             void Link();
             GLint GetUniformLocation(const GLchar* name);
+            GLint GetAttribLocation(const GLchar* name);
             void Clear();
 
             inline void Use() const { glUseProgram(_handle); }
@@ -113,6 +114,12 @@ namespace XPG
     GLint Program<N>::GetUniformLocation(const GLchar* name)
     {
         return glGetUniformLocation(_handle, name);
+    }
+
+    template<size_t N>
+    GLint Program<N>::GetAttribLocation(const GLchar* name)
+    {
+    	return glGetAttribLocation(_handle, name);
     }
 
     template<size_t N>

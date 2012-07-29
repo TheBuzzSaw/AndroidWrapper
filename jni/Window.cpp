@@ -101,6 +101,7 @@ namespace XPG
 		_width = w;
 		_height = h;
 		_angle = 0;
+		_animating = 1;
 
 		// Initialize GL state.
 		glDisable(GL_DEPTH_TEST);
@@ -109,11 +110,15 @@ namespace XPG
 
 		Ammo ammo;
 		ammo.window = this;
+		ammo.x = _width;
+		ammo.y = _height;
 		_onLoad.Fire(ammo);
 	}
 
 	void Window::Close()
 	{
+		_animating = 0;
+
 		Ammo ammo;
 		ammo.window = this;
 		_onUnload.Fire(ammo);
@@ -223,6 +228,8 @@ namespace XPG
 
 	void Window::OnCommand(struct android_app* app, int32_t command)
 	{
+		LOGI("command %d", command);
+
 	    switch (command)
 	    {
 			case APP_CMD_SAVE_STATE:
@@ -261,6 +268,8 @@ namespace XPG
 	                ASensorEventQueue_setEventRate(_sensorEventQueue,
 	                        _accelerometerSensor, (1000L/60)*1000);
 	            }
+
+	            _animating = 1;
 	            break;
 
 	        case APP_CMD_LOST_FOCUS:

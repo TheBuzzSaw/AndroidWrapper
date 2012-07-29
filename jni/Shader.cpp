@@ -9,7 +9,7 @@ namespace XPG
 
     Shader::~Shader()
     {
-        if (_handle) glDeleteShader(_handle);
+        //if (_handle) glDeleteShader(_handle);
     }
 
     void Shader::LoadFromBuffer(const char* source)
