@@ -200,7 +200,9 @@ namespace XPG
 
 				// Drawing is throttled to the screen update rate, so there
 				// is no need to do timing here.
-				Draw();
+				Ammo ammo;
+				ammo.window = this;
+				_onLoop.Fire(ammo);
 			}
 		}
 	}

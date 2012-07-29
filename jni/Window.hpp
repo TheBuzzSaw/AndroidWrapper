@@ -39,6 +39,7 @@ namespace XPG
 			inline Event& OnAccel() { return _onAccel; }
 			inline Event& OnLowMemory() { return _onLowMemory; }
 			inline Event& OnResize() { return _onResize; }
+			inline Event& OnLoop() { return _onLoop; }
 
 			inline int32_t Width() const { return _width; }
 			inline int32_t Height() const { return _height; }
@@ -67,6 +68,7 @@ namespace XPG
 			Event _onAccel;
 			Event _onLowMemory;
 			Event _onResize;
+			Event _onLoop;
 
 			void Draw();
 			void OnCommand(struct android_app* app,int32_t command);
