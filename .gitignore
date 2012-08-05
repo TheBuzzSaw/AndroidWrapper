@@ -13,6 +13,9 @@ bin/
 gen/
 obj/
 libs/
+build.xml
+proguard-project.txt
 
 # Local configuration file (sdk path, etc)
 local.properties
+
